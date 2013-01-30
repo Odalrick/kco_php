@@ -106,7 +106,7 @@ class Klarna_Checkout_HTTP_CURLHandleStub
 
         $response = $this->response;
         $response = is_callable($response)
-            ? $response($this)
+            ? call_user_func($response, $this)
             : $response;
 
         foreach ($this->headers as $header) {

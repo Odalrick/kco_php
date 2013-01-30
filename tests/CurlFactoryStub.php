@@ -51,11 +51,11 @@ class Klarna_Checkout_CurlFactoryStub extends Klarna_Checkout_HTTP_CURLFactory
      */
     public $data = array();
 
-    /**
-     * Get a handle
-     *
-     * @return Klarna_Checkout_HTTP_CURLHandleStub
-     */
+	/**
+	 * Get a handle
+	 *
+	 * @return Klarna_Checkout_HTTP_CURLHandleStub
+	 */
     public function handle()
     {
         if ($this->handles === array()) {
@@ -83,20 +83,20 @@ class Klarna_Checkout_CurlFactoryStub extends Klarna_Checkout_HTTP_CURLFactory
         $curl->info['http_code'] = $statusCode;
         $curl->expectedURL = $url;
 
-        $self = $this;
-
-        $curl->response = function ($curl) use ($self) {
-            if (array_key_exists(CURLOPT_POSTFIELDS, $curl->options)) {
-                $data = json_decode($curl->options[CURLOPT_POSTFIELDS], true);
-                if (array_key_exists('test', $data)) {
-                    $data['test'] = strtoupper($data['test']);
-                }
-                $self->data = $data;
-            }
-            return json_encode($self->data);
-        };
+        $curl->response = array($this, 'createResponse');
 
         $this->handles[] = $curl;
+    }
 
+    private function createResponse($curl)
+    {
+        if (array_key_exists(CURLOPT_POSTFIELDS, $curl->options)) {
+            $data = json_decode($curl->options[CURLOPT_POSTFIELDS], true);
+            if (array_key_exists('test', $data)) {
+                $data['test'] = strtoupper($data['test']);
+            }
+            $this->data = $data;
+        }
+        return json_encode($this->data);
     }
 }
