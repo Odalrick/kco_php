@@ -57,7 +57,7 @@ class Klarna_Checkout_UserAgent
                 'version' => '1.0.0',
             ),
             'OS' => array(
-                'name' => php_uname('s'),
+                'name' => str_replace(' ', '.', php_uname('s')),
                 'version' => php_uname('r')
             ),
             'Language' => array(
