@@ -88,7 +88,7 @@ class Klarna_Checkout_CurlFactoryStub extends Klarna_Checkout_HTTP_CURLFactory
         $this->handles[] = $curl;
     }
 
-    private function createResponse($curl)
+    public function createResponse($curl)
     {
         if (array_key_exists(CURLOPT_POSTFIELDS, $curl->options)) {
             $data = json_decode($curl->options[CURLOPT_POSTFIELDS], true);
