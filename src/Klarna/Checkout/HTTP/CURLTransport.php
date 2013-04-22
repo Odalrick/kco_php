@@ -42,6 +42,11 @@
 class Klarna_Checkout_HTTP_CURLTransport
     implements Klarna_Checkout_HTTP_TransportInterface
 {
+    const DEFAULT_TIMEOUT = 10;
+
+    /**
+     * @var Klarna_Checkout_HTTP_CURLFactory
+     */
     protected $curl;
 
     /**
@@ -59,7 +64,7 @@ class Klarna_Checkout_HTTP_CURLTransport
     public function __construct(Klarna_Checkout_HTTP_CURLFactory $curl)
     {
         $this->curl = $curl;
-        $this->timeout = 5; // default to 5 seconds
+        $this->timeout = self::DEFAULT_TIMEOUT;
     }
 
     /**
@@ -87,13 +92,13 @@ class Klarna_Checkout_HTTP_CURLTransport
     /**
      * Performs a HTTP request.
      *
-     * @param Klarna_HTTP_Request $request the HTTP request to send.
+     * @param Klarna_Checkout_HTTP_Request $request the HTTP request to send.
      *
      * @throws RuntimeException                Thrown if a cURL handle cannot
      *                                         be initialized.
-     * @throws Klarna_ConnectionErrorException Thrown for unspecified network
-     *                                         or hardware issues.
-     * @return Klarna_HTTP_Response
+     * @throws Klarna_Checkout_ConnectionErrorException Thrown for unspecified
+     *                                                  network or hardware issues.
+     * @return Klarna_Checkout_HTTP_Response
      */
     public function send(Klarna_Checkout_HTTP_Request $request)
     {
@@ -168,7 +173,7 @@ class Klarna_Checkout_HTTP_CURLTransport
      *
      * @throws InvalidArgumentException If the specified argument
      *                                  is not of type string.
-     * @return Klarna_HTTP_Request
+     * @return Klarna_Checkout_HTTP_Request
      */
     public function createRequest($url)
     {
